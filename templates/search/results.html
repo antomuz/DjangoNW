@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Résultats similaires</h2>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {% for image in images %}
+    <a href="{% url 'image_detail' image.id %}" class="block border rounded overflow-hidden shadow">
+        <img src="{{ image.file.url }}" class="w-full h-auto">
+    </a>
+    {% endfor %}
+</div>
+<a href="{% url 'search_by_image' %}" class="text-blue-600 hover:underline mt-6 inline-block">← Nouvelle recherche</a>
+{% endblock %}

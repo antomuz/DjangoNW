@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-bold mb-4">{{ image.title }}</h2>
+
+<div class="flex flex-col md:flex-row gap-8">
+    <img src="{{ image.file.url }}" class="max-w-lg rounded shadow-lg" alt="{{ image.title }}">
+    
+    <h3 class="text-lg font-semibold mt-6 mb-2">🔁 Images similaires</h3>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {% for sim in similar_images %}
+        <a href="{% url 'image_detail' sim.id %}">
+        <img src="{{ sim.file.url }}" class="rounded shadow" />
+        </a>
+    {% empty %}
+        <p class="text-sm text-zinc-500">Aucune image similaire détectée.</p>
+    {% endfor %}
+    </div>
+
+    <div class="space-y-2">
+        <p><strong>Date upload :</strong> {{ image.uploaded_at }}</p>
+        <p><strong>NSFW score :</strong> {{ image.nsfw_score }}</p>
+        <p><strong>Tags IA :</strong> {{ image.tags|join:", " }}</p>
+        <p><strong>Tags IA :</strong>
+            {% for tag in image.tags %}
+                <a href="{% url 'images_by_tag' tag %}" class="text-purple-600 hover:underline">#{{ tag }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+        <p><strong>Faces détectés :</strong> {{ image.faces_detected }}</p>
+        <p><strong>Description :</strong> {{ image.description }}</p>
+        <p><strong>Favori :</strong> {{ image.favorite }}</p>
+    </div>
+    <form method="post" action="{% url 'toggle_favorite' image.id %}">
+        {% csrf_token %}
+        <button type="submit" class="mt-4 px-4 py-2 rounded bg-yellow-400 text-black hover:bg-yellow-500">
+            {% if image.favorite %}Retirer des favoris{% else %}Ajouter aux favoris{% endif %}
+        </button>
+        <a href="{% url 'edit_image' image.id %}" class="text-sm text-blue-600 hover:underline">✏️ Modifier tags & description</a>
+    </form>
+</div>
+
+<a href="/" class="text-blue-600 hover:underline mt-6 inline-block">← Retour à la galerie</a>
+{% endblock %}

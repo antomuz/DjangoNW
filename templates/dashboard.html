@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-7xl mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white shadow rounded-xl p-4">
+        <h2 class="text-xl font-semibold mb-2">Images totales</h2>
+        <p class="text-3xl">{{ total_images }}</p>
+    </div>
+    <div class="bg-white shadow rounded-xl p-4">
+        <h2 class="text-xl font-semibold mb-2">Tags uniques</h2>
+        <p class="text-3xl">{{ unique_tags }}</p>
+        <ul class="mt-2 text-sm">
+            {% for t in tag_distribution %}
+                <li>{{ t.tags }} ({{ t.count }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="bg-white shadow rounded-xl p-4">
+        <h2 class="text-xl font-semibold mb-2">Catégories</h2>
+        <ul class="text-sm">
+            {% for c in category_distribution %}
+                <li>{{ c.category }} ({{ c.count }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="bg-white shadow rounded-xl p-4">
+        <h2 class="text-xl font-semibold mb-2">NSFW / SFW</h2>
+        <p>NSFW: {{ nsfw_count }} | SFW: {{ sfw_count }}</p>
+    </div>
+
+    <div class="bg-white shadow rounded-xl p-4">
+        <h2 class="text-xl font-semibold mb-2">Répartition NSFW</h2>
+        <ul class="text-sm">
+            {% for range, count in nsfw_bins.items %}
+                <li>{{ range }} : {{ count }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="bg-white shadow rounded-xl p-4">
+        <h2 class="text-xl font-semibold mb-2">Teintes dominantes</h2>
+        <div class="flex flex-wrap gap-2 mt-2">
+            {% for color in dominant_colors %}
+                <div class="w-6 h-6 rounded-full border" style="background-color: {{ color.dominant_color }}"></div>
+                <span class="text-sm">{{ color.count }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="bg-white shadow rounded-xl p-4">
+        <h2 class="text-xl font-semibold mb-2">Embeddings CLIP</h2>
+        <p>{{ with_embedding }} avec, {{ without_embedding }} sans</p>
+        <form method="post" hx-post="{% url 'regenerate_embeddings' %}" hx-swap="outerHTML">
+            {% csrf_token %}
+            <button class="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+                🔄 Générer les embeddings manquants
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

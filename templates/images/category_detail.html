@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-6">Catégorie : {{ category }}</h2>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {% for image in images %}
+    <a href="{% url 'image_detail' image.id %}" class="block">
+        <img src="{{ image.file.url }}" class="rounded shadow" />
+    </a>
+    {% endfor %}
+</div>
+
+{% if not images %}
+<p class="text-zinc-500 mt-6">Aucune image trouvée dans cette catégorie.</p>
+{% endif %}
+{% endblock %}

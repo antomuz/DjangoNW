@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Toutes les images</h2>
+<form method="get" class="mb-6 space-y-2 md:space-y-0 md:flex md:items-end md:gap-4">
+    <div>
+        <label class="block text-sm font-medium">Recherche</label>
+        <input type="text" name="q" value="{{ query }}" placeholder="mots-clés, tags, etc."
+               class="w-full p-2 border rounded" />
+    </div>
+    <div>
+        <label class="block text-sm font-medium">NSFW min : <span id="nsfw-value">{{ min_nsfw|default:'0' }}</span></label>
+        <input type="range" name="nsfw" id="nsfw-range"
+            min="0" max="1" step="0.01"
+            value="{{ min_nsfw|default:'0' }}"
+            class="w-full h-2 bg-pink-200 rounded-lg appearance-none cursor-pointer" />
+        <script>
+            const range = document.getElementById('nsfw-range');
+            const display = document.getElementById('nsfw-value');
+            range.addEventListener('input', () => {
+                display.textContent = parseFloat(range.value).toFixed(2);
+            });
+        </script>
+    </div>
+    <div class="flex items-center space-x-2">
+        <input type="checkbox" name="favorite" {% if fav == 'on' %}checked{% endif %} />
+        <label>❤️ Favoris</label>
+    </div>
+    <div>
+        <button type="submit"
+                class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
+            Filtrer
+        </button>
+    </div>
+</form>
+{% if images %}
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {% for image in images %}
+        <div class="border rounded p-2 shadow">
+            <a href="{% url 'image_detail' image.id %}">
+                <img src="{{ image.file.url }}" alt="{{ image.title }}" class="w-full h-auto rounded hover:scale-105 transition">
+            </a>
+            <p class="text-xs text-zinc-500 mt-1 italic">
+                Catégorie : {{ image.category|default:"?" }}
+            </p>
+            {% if image.favorite %}
+                <div class="text-yellow-500 font-bold mt-1">⭐ Favori</div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% else %}
+    <p>Aucune image ne correspond à ta recherche.</p>
+{% endif %}
+{% endblock %}

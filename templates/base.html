@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart NSFW Image Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-100 text-zinc-900 min-h-screen">
+
+    <!-- 🔝 Navbar sexy -->
+    <nav class="sticky top-0 z-50 bg-white shadow-md px-6 py-4 flex justify-between items-center">
+        <div class="text-xl font-bold text-pink-600">
+            <a href="/">🔥 NSFW Hub</a>
+        </div>
+        <div class="flex gap-4 text-sm md:text-base">
+            <a href="/" class="text-zinc-700 hover:text-pink-600 transition">Galerie</a>
+            <a href="/upload/" class="text-zinc-700 hover:text-pink-600 transition">Uploader</a>
+            <a href="/search/similar/" class="text-zinc-700 hover:text-pink-600 transition">Recherche image</a>
+            <a href="/explore/" class="text-zinc-700 hover:text-pink-600 transition">Explorer les tags</a>
+            <a href="/favorites/" class="text-zinc-700 hover:text-pink-600 transition">❤️ Favoris</a>
+            <a href="/categories/" class="text-zinc-700 hover:text-pink-600 transition">📚 Catégories</a>
+
+        </div>
+    </nav>
+
+    <!-- 🔽 Contenu principal -->
+    <main class="container mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-center text-sm text-zinc-500 mt-12 pb-6">
+        Smart NSFW Image Hub © {{ now|date:"Y" }} – powered by Django & CLIP
+    </footer>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Images avec le tag : <span class="text-purple-600">#{{ tag }}</span></h2>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {% for image in images %}
+    <a href="{% url 'image_detail' image.id %}">
+        <img src="{{ image.file.url }}" class="rounded shadow">
+    </a>
+    {% endfor %}
+</div>
+
+<a href="/" class="text-blue-600 hover:underline mt-6 inline-block">← Retour à la galerie</a>
+{% endblock %}

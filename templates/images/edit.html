@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Éditer l’image : {{ image.title }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">Enregistrer</button>
+</form>
+
+<a href="{% url 'image_detail' image.id %}" class="text-blue-600 hover:underline mt-4 inline-block">← Retour à la fiche</a>
+{% endblock %}

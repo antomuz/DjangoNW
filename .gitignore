@@ -1,0 +1,17 @@
+# .gitignore
+*.pyc
+__pycache__/
+env/
+venv/
+*.sqlite3
+*.log
+*.pot
+*.py[cod]
+*.swp
+.DS_Store
+.idea/
+.vscode/
+.env
+media/
+staticfiles/
+node_modules/

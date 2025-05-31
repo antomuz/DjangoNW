@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-6">❤️ Mes images favorites</h2>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {% for image in images %}
+    <div class="relative border rounded p-2 shadow">
+        <a href="{% url 'image_detail' image.id %}">
+            <img src="{{ image.file.url }}" alt="{{ image.title }}" class="w-full h-auto rounded">
+        </a>
+        <div class="absolute top-1 right-1 text-red-500 text-xl">❤️</div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if not images %}
+    <p class="text-zinc-500 mt-6">Tu n'as encore rien mis en favori… 😢</p>
+{% endif %}
+{% endblock %}
